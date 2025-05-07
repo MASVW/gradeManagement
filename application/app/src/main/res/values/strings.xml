@@ -1,4 +1,11 @@
 <resources>
-    <string name="app_name">app</string>
-    <string name="title_activity_main">MainActivity</string>
+    <string name="app_name">Grade Management</string>
+    <string name="app_title">Grade Management Application</string>
+
+    <string name="create_student_title">Create Student Data</string>
+    <string name="form_create_student_title">Masukkan Data Siswa</string>
+
+
+
+    <string name="title_activity_main">Grade Management Application</string>
 </resources>

@@ -1,11 +1,14 @@
 package com.smp5.app
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.ListView
 import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.smp5.app.model.APIRetrofit
 import com.smp5.app.model.StudentModel
 import kotlinx.coroutines.Dispatchers
@@ -18,15 +21,41 @@ import retrofit2.Response
 class MainActivity : ComponentActivity() {
     private val TAG = "MainActivity"
     private val api by lazy { APIRetrofit().endpoint }
+
     private lateinit var studentAdapter: StudentAdapter
-    private lateinit var listStudent: ListView
+    private lateinit var listStudent: RecyclerView
+    private lateinit var fabCreate: FloatingActionButton
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        setupView()
         setupList()
+        setupListener()
+    }
+
+    override fun onStart() {
+        super.onStart()
         getStudent()
     }
+
+    private fun setupView(){
+        listStudent = findViewById(R.id.recyclerStudent)
+        fabCreate = findViewById(R.id.createStudent)
+    }
+
+    private fun setupList() {
+        studentAdapter = StudentAdapter(this, arrayListOf())
+        listStudent.adapter = studentAdapter
+    }
+
+    private fun setupListener(){
+        fabCreate.setOnClickListener{
+            startActivity(Intent(this, CreateStudentActivity::class.java))
+        }
+    }
+
 
     private fun getStudent() {
         lifecycleScope.launch {
@@ -52,11 +81,5 @@ class MainActivity : ComponentActivity() {
                 Toast.makeText(this@MainActivity, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
             }
         }
-    }
-
-    private fun setupList() {
-        listStudent = findViewById(R.id.listStudent)
-        studentAdapter = StudentAdapter(this, mutableListOf())
-        listStudent.adapter = studentAdapter
     }
 }

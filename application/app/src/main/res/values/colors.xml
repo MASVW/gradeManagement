@@ -1,10 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
+    <color name="black">#4E4E4E</color>
+    <color name="white">#FFFFFF</color>
+
+    <color name="primary_100">#F1FEF2</color>
+    <color name="primary_300">#D4F9DE</color>
+    <color name="primary_500">#B2EBCC</color>
+    <color name="primary_700">#59A98D</color>
+    <color name="primary_900">#227065</color>
+
+    <color name="success_100">#F3FBD3</color>
+    <color name="success_300">#CDEB7A</color>
+    <color name="success_500">#8CBF26</color>
+    <color name="success_700">#598913</color>
+    <color name="success_900">#345B07</color>
+
+    <color name="info_100">#CFF0FF</color>
+    <color name="info_300">#6FC5FF</color>
+    <color name="info_500">#0F87FF</color>
+    <color name="info_700">#074DB7</color>
+    <color name="info_900">#02267A</color>
+
+    <color name="warning_100">#FEFBCF</color>
+    <color name="warning_300">#FEF171</color>
+    <color name="warning_500">#FCE114</color>
+    <color name="warning_700">#B59D0A</color>
+    <color name="warning_900">#786503</color>
+
+    <color name="danger_100">#FFEFE2</color>
+    <color name="danger_300">#FFC3A9</color>
+    <color name="danger_500">#FF8570</color>
+    <color name="danger_700">#B73839</color>
+    <color name="danger_900">#7A1526</color>
+
+
 </resources>
