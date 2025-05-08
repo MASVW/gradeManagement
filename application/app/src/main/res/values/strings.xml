@@ -2,10 +2,21 @@
     <string name="app_name">Grade Management</string>
     <string name="app_title">Grade Management Application</string>
 
-    <string name="create_student_title">Create Student Data</string>
+    <string name="form_student_title">Manajemen Data Siswa</string>
     <string name="form_create_student_title">Masukkan Data Siswa</string>
+    <string name="form_update_student_title">Edit Data Siswa</string>
+
+    <string name="form_subject_title">Manajemen Data Subject</string>
+    <string name="form_create_subject_title">Masukkan Data Subject Baru</string>
+    <string name="form_update_subject_title">Edit Data Subject</string>
+
+    <string name="cc_create">Create</string>
+    <string name="cc_update">Update</string>
+
 
 
 
     <string name="title_activity_main">Grade Management Application</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

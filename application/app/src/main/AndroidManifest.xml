@@ -7,6 +7,7 @@
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
+        android:enableOnBackInvokedCallback="true"
         android:fullBackupContent="@xml/backup_rules"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,6 +17,15 @@
         android:theme="@style/Theme.App"
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
+        <activity
+            android:name=".CreateSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditSubjectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EditStudentActivity"
+            android:exported="false" />
         <activity
             android:name=".CreateStudentActivity"
             android:exported="false" />

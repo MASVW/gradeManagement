@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
-        android:id="@+id/menuStudent"
+        android:id="@+id/navigation_students"
         android:icon="@drawable/ic_student"
         android:title="Student" />
     <item
-        android:id="@+id/menuSubject"
+        android:id="@+id/navigation_subjects"
         android:icon="@drawable/ic_subject"
         android:title="Subject" />
     <item
-        android:id="@+id/menuGrades"
+        android:id="@+id/navigation_grades"
         android:icon="@drawable/ic_grades"
         android:title="Grades" />
 

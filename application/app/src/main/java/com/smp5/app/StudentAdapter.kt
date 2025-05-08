@@ -13,7 +13,8 @@ import com.smp5.app.model.StudentModel
 
 class StudentAdapter(
     private val context: Context,
-    private val students: ArrayList<StudentModel>
+    private val students: ArrayList<StudentModel>,
+    private val listerner: OnAdapterListerner
 ) : RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
     private val TAG = "Student Adapter"
 
@@ -23,7 +24,16 @@ class StudentAdapter(
 
     override fun onBindViewHolder(holder: StudentAdapter.ViewHolder, position: Int) {
         val student = students[position]
-        holder.textStudent.text = student.name
+        holder.textStudentName.text = student.name
+        holder.textStudentAge.text = student.age.toString()
+        holder.textStudentClass.text = student.className
+        holder.itemView.setOnClickListener{
+            listerner.onClick( student )
+        }
+
+        holder.imageDelete.setOnClickListener {
+            listerner.onDelete( student )
+        }
     }
 
     override fun getItemCount(): Int {
@@ -32,7 +42,9 @@ class StudentAdapter(
     }
 
     class ViewHolder(view: View): RecyclerView.ViewHolder(view){
-        val textStudent = view.findViewById<TextView>(R.id.textStudent)
+        val textStudentName = view.findViewById<TextView>(R.id.textStudentName)
+        val textStudentAge = view.findViewById<TextView>(R.id.textStudentAge)
+        val textStudentClass = view.findViewById<TextView>(R.id.textStudentClass)
         val imageDelete = view.findViewById<ImageView>(R.id.imageDelete)
     }
 
@@ -42,4 +54,17 @@ class StudentAdapter(
         Log.d(TAG, "Data berhasil diambil: ${students}")
         notifyDataSetChanged()
     }
+
+    fun removeItem(position: Int) {
+        students.removeAt(position)
+        notifyItemRemoved(position)
+        notifyItemRangeChanged(position, students.size)
+    }
+
+    interface OnAdapterListerner{
+        fun onClick(student: StudentModel)
+        fun onDelete(student: StudentModel)
+    }
+
+
 }
