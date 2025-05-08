@@ -5,18 +5,17 @@ module.exports = (sequelize, DataTypes) => {
   class Grade extends Model {
     static associate(models) {
       Grade.belongsTo(models.Student, {
-        foreignKey: 'studentId', // kolom foreign key di tabel Grade
-        as: 'student' // alias untuk query
+        foreignKey: 'studentId',
+        as: 'student'
       });
-    
-      // Relasi ke Subject
+      
       Grade.belongsTo(models.Subject, {
         foreignKey: 'subjectId',
         as: 'subject'
       });
     }
   }
-
+  
   Grade.init({
     id: {
       type: DataTypes.INTEGER,
@@ -32,12 +31,17 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: false,
     },
     score: {
-      type: DataTypes.FLOAT,
+      type: DataTypes.INTEGER,
+      allowNull: false,
+      validate: {
+        min: 0,
+        max: 100
+      }
     },
   }, {
     sequelize,
     modelName: 'Grade',
   });
-
+  
   return Grade;
 };

@@ -1,14 +1,15 @@
 'use strict';
-const {
-  Model
-} = require('sequelize');
+const { Model } = require('sequelize');
 
 module.exports = (sequelize, DataTypes) => {
   class Student extends Model {
     static associate(models) {
+      // Define association here
       Student.hasMany(models.Grade, {
         foreignKey: 'studentId',
-        as: 'grades'
+        as: 'grades',
+        onDelete: 'CASCADE', // This is important for cascade delete
+        onUpdate: 'CASCADE'
       });
     }
   }
@@ -35,6 +36,6 @@ module.exports = (sequelize, DataTypes) => {
     sequelize,
     modelName: 'Student',
   });
-
+  
   return Student;
 };

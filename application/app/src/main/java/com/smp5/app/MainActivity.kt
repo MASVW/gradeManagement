@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.smp5.app.model.APIRetrofit
+import com.smp5.app.model.GradeModel
 import com.smp5.app.model.StudentModel
 import com.smp5.app.model.SubjectModel
 import kotlinx.coroutines.Dispatchers
@@ -36,7 +37,7 @@ class MainActivity : FragmentActivity() {
 
     private val studentFragment = StudentFragment()
     private val subjectFragment = SubjectFragment()
-    /*private val gradesFragment = GradesFragment()*/
+    private val gradesFragment = GradesFragment()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -58,6 +59,9 @@ class MainActivity : FragmentActivity() {
         fabCreateSubject.setOnClickListener {
             startActivity(Intent(this, CreateSubjectActivity::class.java))
         }
+        fabCreateGrade.setOnClickListener {
+            startActivity(Intent(this, CreateGradeActivity::class.java))
+        }
     }
 
     private fun setupBottomNavigation() {
@@ -77,13 +81,13 @@ class MainActivity : FragmentActivity() {
                     fabCreateGrade.hide()
                     true
                 }
-                /*R.id.navigation_grades -> {
+                R.id.navigation_grades -> {
                     loadFragment(gradesFragment)
                     fabCreateStudent.hide()
                     fabCreateSubject.hide()
                     fabCreateGrade.show()
                     true
-                }*/
+                }
                 else -> false
             }
         }
@@ -96,7 +100,7 @@ class MainActivity : FragmentActivity() {
             .commit()
     }
 
-    public fun showDeleteConfirmationDialog(student: StudentModel) {
+    public fun showDeleteStudentConfirmationDialog(student: StudentModel) {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus siswa '${student.name}'?")
@@ -118,6 +122,22 @@ class MainActivity : FragmentActivity() {
             .setMessage("Apakah Anda yakin ingin menghapus subject '${subject.name}'?")
             .setPositiveButton("Ya") { dialog, _ ->
                 deleteSubject(subject)
+                dialog.dismiss()
+            }
+            .setNegativeButton("Tidak") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+
+        alertDialog.show()
+    }
+
+    public fun showDeleteGradeConfirmationDialog(grade: GradeModel) {
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("Konfirmasi Hapus")
+            .setMessage("Apakah Anda yakin ingin menghapus grade '${grade.student.name}'?")
+            .setPositiveButton("Ya") { dialog, _ ->
+                deleteGrade(grade)
                 dialog.dismiss()
             }
             .setNegativeButton("Tidak") { dialog, _ ->
@@ -166,6 +186,29 @@ class MainActivity : FragmentActivity() {
                 } else {
                     Log.e(TAG, "Gagal menghapus student: ${response.message()}")
                     Toast.makeText(this@MainActivity, "Gagal menghapus subject", Toast.LENGTH_SHORT).show()
+                }
+            } catch (e: Exception) {
+                Log.e(TAG, "Terjadi kesalahan saat menghapus: ${e.message}", e)
+                Toast.makeText(this@MainActivity, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    public fun deleteGrade(grade: GradeModel){
+        lifecycleScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    api.deleteGrades(grade.id).execute()
+                }
+
+                if (response.isSuccessful) {
+                    Log.d(TAG, "Grade berhasil dihapus: ${grade.student.name} ${grade.subject.name} dengan nilai ${grade.score}")
+                    Toast.makeText(this@MainActivity, "Data berhasil dihapus", Toast.LENGTH_SHORT).show()
+                    // Refresh data setelah delete
+                    (gradesFragment as? GradesFragment)?.refreshData()
+                } else {
+                    Log.e(TAG, "Gagal menghapus student: ${response.message()}")
+                    Toast.makeText(this@MainActivity, "Gagal menghapus data", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Terjadi kesalahan saat menghapus: ${e.message}", e)

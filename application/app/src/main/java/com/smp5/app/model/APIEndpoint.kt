@@ -69,19 +69,20 @@ interface APIEndpoint {
 
     @FormUrlEncoded
     @POST("grades")
-    fun createGrades(
-        @Field("name") name: String,
-        @Field("description") age: Int,
+    fun createGrade(
+        @Field("studentId") studentId: Int,
+        @Field("subjectId") subjectId: Int,
+        @Field("score") score: Int,
     ): Call<SubmitModel>
 
     @FormUrlEncoded
     @PUT("grades/{id}")
     fun updateGrades(
-        @Path("id") id: Int,
-        @Field("subjectId") subjectId: Int,
-        @Field("studentId") studentId: Int,
-        @Field("score") score: Int,
-    ): Call<SubmitModel>
+        @Path("id") id: String,       // Ubah Any menjadi String
+        @Field("studentId") studentId: String,  // Ubah Any menjadi String
+        @Field("subjectId") subjectId: String,  // Ubah Any menjadi String
+        @Field("score") score: Int
+    ): Call<Any>
 
     @DELETE("grades/{id}")
     fun deleteGrades(

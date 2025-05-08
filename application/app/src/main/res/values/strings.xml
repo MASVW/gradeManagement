@@ -10,10 +10,12 @@
     <string name="form_create_subject_title">Masukkan Data Subject Baru</string>
     <string name="form_update_subject_title">Edit Data Subject</string>
 
+    <string name="form_grade_title">Manajemen Data Nilai</string>
+    <string name="form_create_grade_title">Masukkan Data Nilai Baru</string>
+    <string name="form_update_grade_title">Edit Nilai Siswwa</string>
+
     <string name="cc_create">Create</string>
     <string name="cc_update">Update</string>
-
-
 
 
     <string name="title_activity_main">Grade Management Application</string>

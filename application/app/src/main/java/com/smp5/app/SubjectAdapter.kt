@@ -13,7 +13,7 @@ import com.smp5.app.model.SubjectModel
 class SubjectAdapter (
     private val context: Context,
     private val subject: ArrayList<SubjectModel>,
-    private val listerner: OnAdapterListerner
+    private val listener: OnAdapterlistener
 ): RecyclerView.Adapter<SubjectAdapter.ViewHolder>() {
     private val TAG = "Subject Adapter"
 
@@ -26,11 +26,11 @@ class SubjectAdapter (
         holder.subject_name.text = subject.name.toString()
         holder.subject_description.text = subject.description.toString()
         holder.itemView.setOnClickListener{
-            listerner.onClick( subject )
+            listener.onClick( subject )
         }
 
         holder.imageDelete.setOnClickListener {
-            listerner.onDelete( subject )
+            listener.onDelete( subject )
         }
     }
 
@@ -56,7 +56,7 @@ class SubjectAdapter (
         notifyItemRangeChanged(position, subject.size)
     }
 
-    interface OnAdapterListerner{
+    interface OnAdapterlistener{
         fun onClick(subject: SubjectModel)
         fun onDelete(subject: SubjectModel)
     }

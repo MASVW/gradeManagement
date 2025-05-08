@@ -18,6 +18,12 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".EditGradeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CreateGradeActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreateSubjectActivity"
             android:exported="false" />
         <activity

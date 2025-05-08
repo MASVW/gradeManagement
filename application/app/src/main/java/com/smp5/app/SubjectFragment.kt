@@ -51,7 +51,7 @@ class SubjectFragment : Fragment() {
     }
 
     private fun setupAdapter() {
-        subjectAdapter = SubjectAdapter(requireContext(), arrayListOf(), object : SubjectAdapter.OnAdapterListerner {
+        subjectAdapter = SubjectAdapter(requireContext(), arrayListOf(), object : SubjectAdapter.OnAdapterlistener {
             override fun onClick(subject: SubjectModel) {
                 startActivity(
                     Intent(requireContext(), EditSubjectActivity::class.java)

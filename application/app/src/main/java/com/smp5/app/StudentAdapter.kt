@@ -14,7 +14,7 @@ import com.smp5.app.model.StudentModel
 class StudentAdapter(
     private val context: Context,
     private val students: ArrayList<StudentModel>,
-    private val listerner: OnAdapterListerner
+    private val listener: OnAdapterlistener
 ) : RecyclerView.Adapter<StudentAdapter.ViewHolder>() {
     private val TAG = "Student Adapter"
 
@@ -28,11 +28,11 @@ class StudentAdapter(
         holder.textStudentAge.text = student.age.toString()
         holder.textStudentClass.text = student.className
         holder.itemView.setOnClickListener{
-            listerner.onClick( student )
+            listener.onClick( student )
         }
 
-        holder.imageDelete.setOnClickListener {
-            listerner.onDelete( student )
+        holder.imageDelete.setOnClickListener{
+            listener.onDelete( student )
         }
     }
 
@@ -61,7 +61,7 @@ class StudentAdapter(
         notifyItemRangeChanged(position, students.size)
     }
 
-    interface OnAdapterListerner{
+    interface OnAdapterlistener{
         fun onClick(student: StudentModel)
         fun onDelete(student: StudentModel)
     }

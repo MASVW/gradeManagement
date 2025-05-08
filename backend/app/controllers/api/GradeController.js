@@ -64,30 +64,46 @@ const GradeController = {
     try {
       const { id } = request.params;
       const { studentId, subjectId, score } = request.payload;
-      
+  
       const grade = await Grade.findByPk(id);
       if (!grade) {
         return h.response({ message: 'Grade not found' }).code(404);
       }
-
-      // Validasi student jika diupdate
-      if (studentId) {
+  
+      // Validasi student jika ada
+      if (studentId !== undefined) {
         const student = await Student.findByPk(studentId);
         if (!student) {
           return h.response({ message: 'Student not found' }).code(404);
         }
+        grade.studentId = studentId;
       }
-
-      // Validasi subject jika diupdate
-      if (subjectId) {
+  
+      // Validasi subject jika ada
+      if (subjectId !== undefined) {
         const subject = await Subject.findByPk(subjectId);
         if (!subject) {
           return h.response({ message: 'Subject not found' }).code(404);
         }
+        grade.subjectId = subjectId;
       }
-
-      await grade.update({ studentId, subjectId, score });
-      return h.response(grade).code(200);
+  
+      // Update score jika ada
+      if (score !== undefined) {
+        grade.score = score;
+      }
+  
+      await grade.save();
+  
+      // Ambil data lengkap dengan relasi
+      const updatedGrade = await Grade.findByPk(id, {
+        include: [
+          { model: Student, as: 'student' },
+          { model: Subject, as: 'subject' }
+        ]
+      });
+  
+      return h.response(updatedGrade).code(200);
     } catch (error) {
       return h.response({ message: error.message }).code(500);
     }

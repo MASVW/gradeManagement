@@ -7,14 +7,14 @@ module.exports = {
       {
         studentId: 1,  // ID siswa, pastikan ID ini sesuai dengan data yang ada di tabel Students
         subjectId: 1,  // ID mata pelajaran, pastikan ID ini sesuai dengan data yang ada di tabel Subjects
-        score: 85.5,
+        score: 85,
         createdAt: new Date(),
         updatedAt: new Date()
       },
       {
         studentId: 2,
         subjectId: 2,
-        score: 90.0,
+        score: 90,
         createdAt: new Date(),
         updatedAt: new Date()
       },
@@ -28,7 +28,7 @@ module.exports = {
       {
         studentId: 4,
         subjectId: 4,
-        score: 88.7,
+        score: 88,
         createdAt: new Date(),
         updatedAt: new Date()
       }

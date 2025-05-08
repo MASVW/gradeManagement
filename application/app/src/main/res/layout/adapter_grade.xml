@@ -20,15 +20,15 @@
         android:layout_height="wrap_content"
         android:padding="12dp">
 
-        <!-- Name -->
+        <!-- Student Name -->
         <TextView
-            android:id="@+id/subject_name"
+            android:id="@+id/student_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="16sp"
             android:textStyle="bold"
-            tools:text="Mathematics"
+            tools:text="Bob Williams"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@+id/imageDelete"
             app:layout_constraintTop_toTopOf="parent" />
@@ -43,9 +43,46 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <!-- Age with icon -->
+        <!-- Student Class with icon -->
         <ImageView
-            android:id="@+id/icon_info"
+            android:id="@+id/icon_class"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/ic_info"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/student_name"
+            android:layout_marginTop="8dp"
+            app:tint="@color/primary_700" />
+
+        <TextView
+            android:id="@+id/student_class"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textSize="12sp"
+            app:layout_constraintStart_toEndOf="@id/icon_class"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@id/icon_class"
+            android:layout_marginLeft="5dp"
+            tools:text="Class: 11B" />
+
+        <!-- Subject Name -->
+        <TextView
+            android:id="@+id/subject_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/black"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/student_class"
+            android:layout_marginTop="8dp"
+            tools:text="Science" />
+
+        <!-- Subject Description with icon -->
+        <ImageView
+            android:id="@+id/icon_subject"
             android:layout_width="16dp"
             android:layout_height="16dp"
             android:src="@drawable/ic_info"
@@ -55,15 +92,29 @@
             app:tint="@color/primary_700" />
 
         <TextView
-            android:id="@+id/subject_descripton"
+            android:id="@+id/subject_description"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textSize="12sp"
-            app:layout_constraintStart_toEndOf="@id/icon_info"
+            android:layout_marginLeft="5dp"
+            app:layout_constraintStart_toEndOf="@id/icon_subject"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@id/icon_info"
-            tools:text="This subject covers topics related to numbers, shapes, and equations." />
+            app:layout_constraintTop_toTopOf="@id/icon_subject"
+            tools:text="This subject covers topics related to physics, chemistry, and biology." />
+
+        <!-- Score -->
+        <TextView
+            android:id="@+id/score"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@android:color/holo_green_dark"
+            android:textStyle="bold"
+            android:textSize="14sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/subject_description"
+            android:layout_marginTop="8dp"
+            tools:text="Nilai: 90" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

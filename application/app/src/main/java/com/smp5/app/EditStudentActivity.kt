@@ -17,7 +17,7 @@ class EditStudentActivity : ComponentActivity() {
 
     private val api by lazy { APIRetrofit().endpoint }
     private val data by lazy { intent.getSerializableExtra("data") as StudentModel }
-    private val TAG = "Edit Function";
+    private val TAG = "Edit Student Function";
 
     private lateinit var studentName: EditText
     private lateinit var studentAge: EditText
