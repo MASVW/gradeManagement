@@ -19,7 +19,7 @@ class AuthPrefs(context: Context) {
         return sharedPref.getString(KEY_TOKEN, null)
     }
 
-        fun clearToken() {
+    fun clearToken() {
         sharedPref.edit().remove(KEY_TOKEN).apply()
     }
 }

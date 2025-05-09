@@ -37,7 +37,7 @@ const login = async (request, h) => {
     if (!isMatch) return h.response({ error: 'Email atau password salah' }).code(400);
 
     // Generate token untuk user
-    const token = generateToken({ userId: user.id });
+    const token = generateToken({ user: user });
 
     return h.response({ message: 'Login berhasil', token }).code(200);
   } catch (err) {

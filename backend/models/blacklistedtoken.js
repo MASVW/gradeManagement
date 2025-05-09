@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
     }
   }
   BlacklistedToken.init({
-    token: DataTypes.STRING
+    token: DataTypes.TEXT
   }, {
     sequelize,
     modelName: 'BlacklistedToken',

@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.Toast
+import androidx.activity.ComponentActivity
 import com.smp5.app.AuthPrefs
 import com.smp5.app.MainActivity
 import com.smp5.app.databinding.ActivityLoginBinding
@@ -14,7 +15,7 @@ import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
 
-class LoginActivity : AppCompatActivity() {
+class LoginActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var authPrefs: AuthPrefs

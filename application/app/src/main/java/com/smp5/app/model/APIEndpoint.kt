@@ -1,5 +1,6 @@
 package com.smp5.app.model
 
+import com.smp5.app.RegisterResponse
 import retrofit2.Call
 import retrofit2.http.*
 
@@ -85,7 +86,6 @@ interface APIEndpoint {
         @Field("score") score: Int
     ): Call<Any>
 
-    
     @DELETE("grades/{id}")
     fun deleteGrades(
         @Path("id") id: Int
@@ -100,8 +100,19 @@ interface APIEndpoint {
         @Field("password") password: String,
     ): Call<LoginResponse>
 
-    
+    // REGISTER API
+
     @FormUrlEncoded
+    @POST("auth/register")
+    fun register(
+        @Field("name") name: String,
+        @Field("username") username: String,
+        @Field("email") email: String,
+        @Field("password") password: String,
+    ): Call<RegisterResponse>
+
+    // LOGOUT API
+
     @POST("auth/logout")
     fun logout(
     ): Call<LogoutResponse>

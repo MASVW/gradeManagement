@@ -2,7 +2,10 @@ package com.smp5.app
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Base64
 import android.util.Log
+import android.widget.Button
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
@@ -19,6 +22,7 @@ import com.smp5.app.ui.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import org.json.JSONObject
 
 class MainActivity : FragmentActivity() {
     private val TAG = "MainActivity"
@@ -30,6 +34,7 @@ class MainActivity : FragmentActivity() {
     private lateinit var fabCreateSubject: FloatingActionButton
     private lateinit var fabCreateGrade: FloatingActionButton
     private lateinit var bottomNavigation: BottomNavigationView
+    private lateinit var btnLogout: Button
 
     private val studentFragment = StudentFragment()
     private val subjectFragment = SubjectFragment()
@@ -44,6 +49,8 @@ class MainActivity : FragmentActivity() {
 
         // Check if token exists and set it in APIRetrofit
         val token = authPrefs.getToken()
+
+        Log.d(TAG, "Token : ${token}")
         if (token == null) {
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
@@ -52,11 +59,33 @@ class MainActivity : FragmentActivity() {
             // Set token for API calls
             APIRetrofit.setToken(token)
         }
-
         setContentView(R.layout.activity_main)
+
+        setupBioData(token);
+
         setupView()
         setupBottomNavigation()
         loadFragment(studentFragment)
+
+        btnLogout.setOnClickListener {
+            showLogoutConfirmationDialog(token)
+        }
+    }
+
+    private fun setupBioData(token: String){
+        val parts = token.split(".")
+        val payload = String(Base64.decode(parts[1], Base64.DEFAULT))
+        val jsonObject = JSONObject(payload)
+        val userObject = jsonObject.getJSONObject("user")
+        Log.d(TAG, "${jsonObject.toString()}")
+        val name = userObject.getString("name")
+        val email = userObject.getString("email")
+
+        val tvUserName = findViewById<TextView>(R.id.tvUserName)
+        val tvUserEmail = findViewById<TextView>(R.id.tvUserEmail)
+
+        tvUserName.text = name
+        tvUserEmail.text = email
     }
 
     private fun setupView(){
@@ -64,6 +93,7 @@ class MainActivity : FragmentActivity() {
         fabCreateStudent = findViewById(R.id.createStudent)
         fabCreateSubject = findViewById(R.id.createSubject)
         fabCreateGrade = findViewById(R.id.createGrade)
+        btnLogout = findViewById(R.id.btnLogout)
 
         fabCreateStudent.setOnClickListener {
             startActivity(Intent(this, CreateStudentActivity::class.java))
@@ -182,6 +212,23 @@ class MainActivity : FragmentActivity() {
             }
         }
     }
+
+    fun showLogoutConfirmationDialog(token: String) {
+        val alertDialog = AlertDialog.Builder(this)
+            .setTitle("Konfirmasi Logout")
+            .setMessage("Apakah Anda yakin ingin Logout ?")
+            .setPositiveButton("Ya") { dialog, _ ->
+                logout()
+                dialog.dismiss()
+            }
+            .setNegativeButton("Tidak") { dialog, _ ->
+                dialog.dismiss()
+            }
+            .create()
+
+        alertDialog.show()
+    }
+
 
     fun deleteSubject(subject: SubjectModel){
         lifecycleScope.launch {

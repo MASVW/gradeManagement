@@ -2,6 +2,7 @@ const StudentController = require('../../controllers/api/StudentController.js');
 const SubjectController = require('../../controllers/api/SubjectController.js');
 const GradeController = require('../../controllers/api/GradeController.js');
 const AuthController = require('../../controllers/api/AuthController.js');
+const convertToCSVController = require('../../controllers/api/CsvController.js');
 
 const authRoutes = [
     { method: 'POST', path: '/api/v1/auth/register', handler: AuthController.register },
@@ -33,6 +34,12 @@ const gradeRoutes = [
     { method: 'DELETE', path: '/api/v1/grades/{id}', handler: GradeController.delete },
 ];
 
+const convertToCSVRoutes = [
+    { method: 'GET', path: '/api/v1/csv/student', handler: convertToCSVController.studentToCsv },
+    { method: 'GET', path: '/api/v1/csv/subject', handler: convertToCSVController.subjectToCsv },
+    { method: 'GET', path: '/api/v1/csv/grade', handler: convertToCSVController.gradeToCsv },
+];
+
 module.exports = [
     {
         method: 'GET',
@@ -42,5 +49,6 @@ module.exports = [
     ...authRoutes,
     ...studentRoutes,
     ...subjectRoutes,
-    ...gradeRoutes
+    ...gradeRoutes,
+    ...convertToCSVRoutes
 ];
