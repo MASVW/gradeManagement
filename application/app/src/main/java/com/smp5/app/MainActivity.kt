@@ -3,9 +3,7 @@ package com.smp5.app
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.widget.ListView
 import android.widget.Toast
-import androidx.activity.ComponentActivity
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
@@ -17,12 +15,10 @@ import com.smp5.app.model.APIRetrofit
 import com.smp5.app.model.GradeModel
 import com.smp5.app.model.StudentModel
 import com.smp5.app.model.SubjectModel
+import com.smp5.app.ui.LoginActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 
 class MainActivity : FragmentActivity() {
     private val TAG = "MainActivity"
@@ -39,8 +35,24 @@ class MainActivity : FragmentActivity() {
     private val subjectFragment = SubjectFragment()
     private val gradesFragment = GradesFragment()
 
+    private lateinit var authPrefs: AuthPrefs
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        authPrefs = AuthPrefs(this)
+
+        // Check if token exists and set it in APIRetrofit
+        val token = authPrefs.getToken()
+        if (token == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+            return
+        } else {
+            // Set token for API calls
+            APIRetrofit.setToken(token)
+        }
+
         setContentView(R.layout.activity_main)
         setupView()
         setupBottomNavigation()
@@ -100,7 +112,7 @@ class MainActivity : FragmentActivity() {
             .commit()
     }
 
-    public fun showDeleteStudentConfirmationDialog(student: StudentModel) {
+    fun showDeleteStudentConfirmationDialog(student: StudentModel) {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus siswa '${student.name}'?")
@@ -116,7 +128,7 @@ class MainActivity : FragmentActivity() {
         alertDialog.show()
     }
 
-    public fun showDeleteSubjectConfirmationDialog(subject: SubjectModel) {
+    fun showDeleteSubjectConfirmationDialog(subject: SubjectModel) {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus subject '${subject.name}'?")
@@ -132,7 +144,7 @@ class MainActivity : FragmentActivity() {
         alertDialog.show()
     }
 
-    public fun showDeleteGradeConfirmationDialog(grade: GradeModel) {
+    fun showDeleteGradeConfirmationDialog(grade: GradeModel) {
         val alertDialog = AlertDialog.Builder(this)
             .setTitle("Konfirmasi Hapus")
             .setMessage("Apakah Anda yakin ingin menghapus grade '${grade.student.name}'?")
@@ -148,7 +160,7 @@ class MainActivity : FragmentActivity() {
         alertDialog.show()
     }
 
-    public fun deleteStudent(student: StudentModel){
+    fun deleteStudent(student: StudentModel){
         lifecycleScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
@@ -171,7 +183,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    public fun deleteSubject(subject: SubjectModel){
+    fun deleteSubject(subject: SubjectModel){
         lifecycleScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
@@ -179,12 +191,12 @@ class MainActivity : FragmentActivity() {
                 }
 
                 if (response.isSuccessful) {
-                    Log.d(TAG, "Student berhasil dihapus: ${subject.name}")
+                    Log.d(TAG, "Subject berhasil dihapus: ${subject.name}")
                     Toast.makeText(this@MainActivity, "Subject berhasil dihapus", Toast.LENGTH_SHORT).show()
                     // Refresh data setelah delete
                     (subjectFragment as? SubjectFragment)?.refreshData()
                 } else {
-                    Log.e(TAG, "Gagal menghapus student: ${response.message()}")
+                    Log.e(TAG, "Gagal menghapus subject: ${response.message()}")
                     Toast.makeText(this@MainActivity, "Gagal menghapus subject", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
@@ -194,7 +206,7 @@ class MainActivity : FragmentActivity() {
         }
     }
 
-    public fun deleteGrade(grade: GradeModel){
+    fun deleteGrade(grade: GradeModel){
         lifecycleScope.launch {
             try {
                 val response = withContext(Dispatchers.IO) {
@@ -207,12 +219,40 @@ class MainActivity : FragmentActivity() {
                     // Refresh data setelah delete
                     (gradesFragment as? GradesFragment)?.refreshData()
                 } else {
-                    Log.e(TAG, "Gagal menghapus student: ${response.message()}")
+                    Log.e(TAG, "Gagal menghapus grade: ${response.message()}")
                     Toast.makeText(this@MainActivity, "Gagal menghapus data", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Terjadi kesalahan saat menghapus: ${e.message}", e)
                 Toast.makeText(this@MainActivity, "Terjadi kesalahan: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    // Add a logout function
+    fun logout() {
+        lifecycleScope.launch {
+            try {
+                val response = withContext(Dispatchers.IO) {
+                    api.logout().execute()
+                }
+
+                // Clear token regardless of response success
+                APIRetrofit.clearToken()
+                authPrefs.clearToken()
+
+                // Navigate to login screen
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
+
+            } catch (e: Exception) {
+                Log.e(TAG, "Terjadi kesalahan saat logout: ${e.message}", e)
+
+                // Even on error, clear token and navigate to login
+                APIRetrofit.clearToken()
+                authPrefs.clearToken()
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                finish()
             }
         }
     }

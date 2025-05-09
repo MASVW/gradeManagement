@@ -2,7 +2,6 @@ const { Grade, Student, Subject } = require('../../../models');
 const{ verifyToken } = require('../helpers/auth');
 
 const GradeController = {
-  // Get all grades dengan relasi
   async getAll(request, h) {
     try {
       const authHeader = request.headers.authorization;
