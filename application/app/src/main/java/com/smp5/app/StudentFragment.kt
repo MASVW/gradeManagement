@@ -22,7 +22,7 @@ class StudentFragment : Fragment() {
     private lateinit var studentAdapter: StudentAdapter
     private lateinit var listStudent: RecyclerView
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(requireContext()).endpoint }
 
 
     override fun onCreateView(

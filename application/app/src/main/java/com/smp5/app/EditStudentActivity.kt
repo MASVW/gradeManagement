@@ -15,7 +15,7 @@ import retrofit2.Response
 
 class EditStudentActivity : ComponentActivity() {
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
     private val data by lazy { intent.getSerializableExtra("data") as StudentModel }
     private val TAG = "Edit Student Function";
 

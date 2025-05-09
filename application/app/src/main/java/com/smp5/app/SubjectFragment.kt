@@ -23,7 +23,7 @@ class SubjectFragment : Fragment() {
     private lateinit var subjectAdapter: SubjectAdapter
     private lateinit var listSubject: RecyclerView
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(requireContext()).endpoint }
 
 
     override fun onCreateView(

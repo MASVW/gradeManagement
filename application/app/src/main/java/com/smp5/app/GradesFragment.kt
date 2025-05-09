@@ -24,7 +24,7 @@ class GradesFragment : Fragment() {
     private lateinit var gradeAdapter: GradeAdapter
     private lateinit var listGrade: RecyclerView
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(requireContext()).endpoint }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

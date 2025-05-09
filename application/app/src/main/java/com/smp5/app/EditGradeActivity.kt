@@ -18,7 +18,7 @@ import kotlinx.coroutines.withContext
 
 class EditGradeActivity : ComponentActivity() {
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
     private val data by lazy { intent.getSerializableExtra("data") as GradeModel }
     private val TAG = "Edit Grade Function";
 

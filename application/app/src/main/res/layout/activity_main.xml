@@ -79,18 +79,16 @@
             app:layout_constraintTop_toBottomOf="@id/tvUserName"
             />
 
-        <Button
-            android:id="@+id/btnLogout"
+        <ImageButton
+            android:id="@+id/btnMenu"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Logout"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="10dp"
-            android:backgroundTint="@color/white"
-            android:textColor="@color/primary_900"
+            android:src="@drawable/ic_menu"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:tint="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintLeft_toRightOf="parent"/>
+            android:layout_marginRight="10dp"/>
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

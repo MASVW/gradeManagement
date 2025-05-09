@@ -23,7 +23,7 @@ class CreateGradeActivity : ComponentActivity() {
     private lateinit var editTextScore: TextInputEditText
     private lateinit var buttonSubmit: Button
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
 
     private var students = listOf<StudentModel>()
     private var subjects = listOf<SubjectModel>()

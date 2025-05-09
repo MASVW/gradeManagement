@@ -14,7 +14,7 @@ import retrofit2.Response
 
 class CreateSubjectActivity : ComponentActivity() {
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
     private val TAG = "Create Subject Function";
 
     private lateinit var subjectName: EditText

@@ -14,7 +14,7 @@ import retrofit2.Response
 
 class CreateStudentActivity : ComponentActivity() {
 
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
     private val TAG = "Create Function";
 
     private lateinit var studentName: EditText

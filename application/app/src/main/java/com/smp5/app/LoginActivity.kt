@@ -19,7 +19,7 @@ class LoginActivity : ComponentActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var authPrefs: AuthPrefs
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -31,8 +31,7 @@ class LoginActivity : ComponentActivity() {
         // Check if token exists and navigate to MainActivity if it does
         val savedToken = authPrefs.getToken()
         if (savedToken != null) {
-            // Set token in APIRetrofit and navigate to MainActivity
-            APIRetrofit.setToken(savedToken)
+            authPrefs.saveToken(savedToken)
             startActivity(Intent(this, MainActivity::class.java))
             finish()
         }
@@ -57,7 +56,6 @@ class LoginActivity : ComponentActivity() {
                             // Save token to SharedPreferences
                             authPrefs.saveToken(token)
                             // Set token for API calls
-                            APIRetrofit.setToken(token)
                             // Navigate to MainActivity
                             startActivity(Intent(this@LoginActivity, MainActivity::class.java))
                             finish()

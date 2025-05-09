@@ -4,7 +4,10 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
+import android.view.MenuItem
 import android.widget.Button
+import android.widget.ImageButton
+import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
@@ -26,7 +29,7 @@ import org.json.JSONObject
 
 class MainActivity : FragmentActivity() {
     private val TAG = "MainActivity"
-    private val api by lazy { APIRetrofit().endpoint }
+    private val api by lazy { APIRetrofit(this).endpoint }
 
     private lateinit var studentAdapter: StudentAdapter
     private lateinit var listStudent: RecyclerView
@@ -34,6 +37,8 @@ class MainActivity : FragmentActivity() {
     private lateinit var fabCreateSubject: FloatingActionButton
     private lateinit var fabCreateGrade: FloatingActionButton
     private lateinit var bottomNavigation: BottomNavigationView
+
+    private lateinit var btnMenu: ImageButton
     private lateinit var btnLogout: Button
 
     private val studentFragment = StudentFragment()
@@ -56,8 +61,7 @@ class MainActivity : FragmentActivity() {
             finish()
             return
         } else {
-            // Set token for API calls
-            APIRetrofit.setToken(token)
+            val token = authPrefs.getToken()
         }
         setContentView(R.layout.activity_main)
 
@@ -67,8 +71,24 @@ class MainActivity : FragmentActivity() {
         setupBottomNavigation()
         loadFragment(studentFragment)
 
-        btnLogout.setOnClickListener {
-            showLogoutConfirmationDialog(token)
+        btnMenu.setOnClickListener {
+            val popupMenu = PopupMenu(this, btnMenu)
+            popupMenu.menuInflater.inflate(R.menu.main_menu, popupMenu.menu)
+            popupMenu.setOnMenuItemClickListener { menuItem: MenuItem ->
+                when (menuItem.itemId) {
+                    R.id.menu_logout -> {
+                        showLogoutConfirmationDialog(token)
+                        true
+                    }
+                    R.id.menu_download -> {
+                        val intent = Intent(this, ExportActivity::class.java)
+                        startActivity(intent)
+                        true
+                    }
+                    else -> false
+                }
+            }
+            popupMenu.show()
         }
     }
 
@@ -93,7 +113,9 @@ class MainActivity : FragmentActivity() {
         fabCreateStudent = findViewById(R.id.createStudent)
         fabCreateSubject = findViewById(R.id.createSubject)
         fabCreateGrade = findViewById(R.id.createGrade)
-        btnLogout = findViewById(R.id.btnLogout)
+
+        btnMenu = findViewById<ImageButton>(R.id.btnMenu)
+        btnLogout = findViewById<Button>(R.id.btnLogout)
 
         fabCreateStudent.setOnClickListener {
             startActivity(Intent(this, CreateStudentActivity::class.java))
@@ -284,8 +306,6 @@ class MainActivity : FragmentActivity() {
                     api.logout().execute()
                 }
 
-                // Clear token regardless of response success
-                APIRetrofit.clearToken()
                 authPrefs.clearToken()
 
                 // Navigate to login screen
@@ -295,8 +315,6 @@ class MainActivity : FragmentActivity() {
             } catch (e: Exception) {
                 Log.e(TAG, "Terjadi kesalahan saat logout: ${e.message}", e)
 
-                // Even on error, clear token and navigate to login
-                APIRetrofit.clearToken()
                 authPrefs.clearToken()
                 startActivity(Intent(this@MainActivity, LoginActivity::class.java))
                 finish()
