@@ -1,20 +1,55 @@
 const { Student } = require('../../../models');
-
+const{ verifyToken } = require('../helpers/auth');
 
 const StudentController = {
-  // Get all students
   async getAll(request, h) {
     try {
+      const authHeader = request.headers.authorization;
+      if (!authHeader) {
+        return h.response({ error: 'Header Authorization diperlukan' }).code(400);
+      }
+
+      const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+      if (!token) {
+        return h.response({ error: 'Format token tidak valid' }).code(400);
+      }      
+
+      const verified = await verifyToken(token);
+      if (!verified) {
+        return h.response({ 
+          error: 'Auth failed',
+          detail: 'Invalid or expired token' 
+        }).code(401);
+      }
+  
       const students = await Student.findAll();
       return h.response(students).code(200);
     } catch (error) {
       return h.response({ message: error.message }).code(500);
     }
   },
+  
 
-  // Get student by ID
   async getById(request, h) {
     try {
+      const authHeader = request.headers.authorization;
+      if (!authHeader) {
+        return h.response({ error: 'Header Authorization diperlukan' }).code(400);
+      }
+
+      const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+      if (!token) {
+        return h.response({ error: 'Format token tidak valid' }).code(400);
+      }      
+
+      const verified = await verifyToken(token);
+      if (!verified) {
+        return h.response({ 
+          error: 'Auth failed',
+          detail: 'Invalid or expired token' 
+        }).code(401);
+      }
+
       const { id } = request.params;
       const student = await Student.findByPk(id);
       if (!student) {
@@ -26,9 +61,26 @@ const StudentController = {
     }
   },
 
-  // Create new student
   async create(request, h) {
     try {
+      const authHeader = request.headers.authorization;
+      if (!authHeader) {
+        return h.response({ error: 'Header Authorization diperlukan' }).code(400);
+      }
+
+      const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+      if (!token) {
+        return h.response({ error: 'Format token tidak valid' }).code(400);
+      }      
+
+      const verified = await verifyToken(token);
+      if (!verified) {
+        return h.response({ 
+          error: 'Auth failed',
+          detail: 'Invalid or expired token' 
+        }).code(401);
+      }
+
       const { name, age, class: className } = request.payload;
       const newStudent = await Student.create({ name, age, class: className });
       return h.response(newStudent).code(201);
@@ -37,9 +89,26 @@ const StudentController = {
     }
   },
 
-  // Update student by ID
   async update(request, h) {
     try {
+      const authHeader = request.headers.authorization;
+      if (!authHeader) {
+        return h.response({ error: 'Header Authorization diperlukan' }).code(400);
+      }
+
+      const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+      if (!token) {
+        return h.response({ error: 'Format token tidak valid' }).code(400);
+      }      
+
+      const verified = await verifyToken(token);
+      if (!verified) {
+        return h.response({ 
+          error: 'Auth failed',
+          detail: 'Invalid or expired token' 
+        }).code(401);
+      }
+
       const { id } = request.params;
       const { name, age, class: className } = request.payload;
       const student = await Student.findByPk(id);
@@ -53,9 +122,26 @@ const StudentController = {
     }
   },
 
-  // Delete student by ID
   async delete(request, h) {
     try {
+      const authHeader = request.headers.authorization;
+      if (!authHeader) {
+        return h.response({ error: 'Header Authorization diperlukan' }).code(400);
+      }
+
+      const token = authHeader.replace(/^Bearer\s+/i, '').trim();
+      if (!token) {
+        return h.response({ error: 'Format token tidak valid' }).code(400);
+      }      
+
+      const verified = await verifyToken(token);
+      if (!verified) {
+        return h.response({ 
+          error: 'Auth failed',
+          detail: 'Invalid or expired token' 
+        }).code(401);
+      }
+
       const { id } = request.params;
       const student = await Student.findByPk(id);
       if (!student) {

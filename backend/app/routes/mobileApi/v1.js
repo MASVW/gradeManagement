@@ -1,6 +1,13 @@
 const StudentController = require('../../controllers/api/StudentController.js');
 const SubjectController = require('../../controllers/api/SubjectController.js');
 const GradeController = require('../../controllers/api/GradeController.js');
+const AuthController = require('../../controllers/api/AuthController.js');
+
+const authRoutes = [
+    { method: 'POST', path: '/api/v1/auth/register', handler: AuthController.register },
+    { method: 'POST', path: '/api/v1/auth/login', handler: AuthController.login },
+    { method: 'POST', path: '/api/v1/auth/logout', handler: AuthController.logout },
+]
 
 const studentRoutes = [
     { method: 'GET', path: '/api/v1/students', handler: StudentController.getAll },
@@ -32,7 +39,8 @@ module.exports = [
         path: '/',
         handler: (request, h) => 'Hello Sam!',
     },
+    ...authRoutes,
     ...studentRoutes,
     ...subjectRoutes,
-    ...gradeRoutes,
+    ...gradeRoutes
 ];
